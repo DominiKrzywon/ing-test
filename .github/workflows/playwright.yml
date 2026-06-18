@@ -46,12 +46,12 @@ jobs:
       # Then encode:       cat playwright/.auth/user.json | base64
       # Store as GitHub Secret: PLAYWRIGHT_AUTH_JSON
       - name: Inject auth state from secret
-        if: ${{ secrets.PLAYWRIGHT_AUTH_JSON != '' }}
+        if: ${{ env.PLAYWRIGHT_AUTH_JSON != '' }}
         env:
-          AUTH_JSON: ${{ secrets.PLAYWRIGHT_AUTH_JSON }}
+          PLAYWRIGHT_AUTH_JSON: ${{ secrets.PLAYWRIGHT_AUTH_JSON }}
         run: |
           mkdir -p playwright/.auth
-          echo "$AUTH_JSON" > playwright/.auth/user.json
+          echo "$PLAYWRIGHT_AUTH_JSON" > playwright/.auth/user.json
 
       - name: Run tests
         run: npx playwright test --project=${{ matrix.browser }}
