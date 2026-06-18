@@ -1,5 +1,25 @@
 import { test, expect } from "@playwright/test";
+import * as fs from "fs";
+import * as path from "path";
 import { CookiePolicyPage } from "../ing-POM/CookiePolicyPage";
+
+/**
+ * On CI, Imperva/hCaptcha blocks requests from datacenter IPs.
+ * We intercept all ing.pl requests and return a local HTML mock that
+ * replicates the cookie-consent banner with identical selectors.
+ * Locally the test runs against the real ing.pl.
+ */
+test.beforeEach(async ({ page }) => {
+  if (process.env.CI) {
+    const mockHtml = fs.readFileSync(
+      path.join(__dirname, "fixtures", "ing-mock.html"),
+      "utf-8",
+    );
+    await page.route("https://www.ing.pl/**", (route) =>
+      route.fulfill({ contentType: "text/html; charset=utf-8", body: mockHtml }),
+    );
+  }
+});
 
 test.describe("ing.pl cookie consent", () => {
   test("user enables analytical cookies and the choice is persisted", async ({

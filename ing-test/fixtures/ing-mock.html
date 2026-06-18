@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ING Bank Śląski — CI mock</title>
+  </head>
+  <body>
+    <!--
+      Minimal mock of the ing.pl cookie-consent banner.
+      Used on CI (page.route) to avoid Imperva/hCaptcha blocking.
+      Selectors must match CookiePolicyPage.ts exactly.
+    -->
+    <div id="cookie-banner">
+      <button class="js-cookie-policy-main-settings-button">Dostosuj</button>
+
+      <div id="cookie-settings" style="display: none">
+        <label>
+          <input type="checkbox" id="header-2-analytical" />
+          Analityczne
+        </label>
+        <button class="js-cookie-policy-settings-decline-button">
+          Zaakceptuj wybrane
+        </button>
+      </div>
+    </div>
+
+    <script>
+      document
+        .querySelector(".js-cookie-policy-main-settings-button")
+        .addEventListener("click", function () {
+          document.getElementById("cookie-settings").style.display = "block";
+        });
+
+      document
+        .querySelector(".js-cookie-policy-settings-decline-button")
+        .addEventListener("click", function () {
+          // bit 0 = functional (always on), bit 1 = analytical
+          var analytical = document.getElementById("header-2-analytical")
+            .checked
+            ? 2
+            : 0;
+          var mask = 1 | analytical;
+          var expires = new Date(
+            Date.now() + 365 * 24 * 60 * 60 * 1000
+          ).toUTCString();
+
+          document.cookie =
+            "cookiePolicyGDPR=" + mask + "; path=/; expires=" + expires;
+          document.cookie =
+            "cookiePolicyGDPR__details=" +
+            JSON.stringify({ cookieCreateTimestamp: Date.now() }) +
+            "; path=/; expires=" +
+            expires;
+
+          // Hide banner so expectBannerDismissed() passes
+          document.getElementById("cookie-banner").style.display = "none";
+        });
+    </script>
+  </body>
+</html>
