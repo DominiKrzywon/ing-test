@@ -1,0 +1,16 @@
+{
+  "name": "ing-cookies-example",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Standalone Playwright example: ing.pl cookie consent flow",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:chromium": "playwright test --project=chromium",
+    "report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.0",
+    "@types/node": "^25.9.3"
+  }
+}
