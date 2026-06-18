@@ -13,19 +13,22 @@ jobs:
   e2e:
     name: ${{ matrix.browser }}
     runs-on: ubuntu-latest
+
     strategy:
       fail-fast: false
       matrix:
         browser: [chromium, firefox, webkit]
-  
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: "npm"
-          cache-dependency-path: package-lock.json
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Cache Playwright Browsers
         id: playwright-cache
@@ -33,16 +36,12 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ matrix.browser }}-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-playwright-${{ matrix.browser }}-
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install Playwright Operating System Dependencies
+      - name: Install Playwright Browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps ${{ matrix.browser }}
 
-      - name: Run tests (${{ matrix.browser }})
+      - name: Run tests
         run: npx playwright test --project=${{ matrix.browser }}
 
       - name: Upload HTML report
