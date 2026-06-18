@@ -17,9 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         browser: [chromium, firefox, webkit]
-    defaults:
-      run:
-        working-directory: examples/ing-cookies
+  
     steps:
       - uses: actions/checkout@v4
 
@@ -27,14 +25,14 @@ jobs:
         with:
           node-version: 22
           cache: "npm"
-          cache-dependency-path: examples/ing-cookies/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Cache Playwright Browsers
         id: playwright-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ matrix.browser }}-${{ hashFiles('examples/ing-cookies/package-lock.json') }}
+          key: ${{ runner.os }}-playwright-${{ matrix.browser }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-playwright-${{ matrix.browser }}-
 
@@ -52,5 +50,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report-${{ matrix.browser }}
-          path: examples/ing-cookies/playwright-report
+          path: playwright-report/
           retention-days: 7
