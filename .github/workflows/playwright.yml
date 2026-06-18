@@ -44,14 +44,6 @@ jobs:
       - name: Install Playwright OS Dependencies
         run: npx playwright install-deps ${{ matrix.browser }}
 
-      - name: Inject auth state from secret
-        if: ${{ env.PLAYWRIGHT_AUTH_JSON != '' }}
-        env:
-          PLAYWRIGHT_AUTH_JSON: ${{ secrets.PLAYWRIGHT_AUTH_JSON }}
-        run: |
-          mkdir -p playwright/.auth
-          echo "$PLAYWRIGHT_AUTH_JSON" > playwright/.auth/user.json
-
       - name: Run tests
         run: npx playwright test --project=${{ matrix.browser }}
 
