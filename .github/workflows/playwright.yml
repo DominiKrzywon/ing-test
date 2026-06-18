@@ -37,14 +37,13 @@ jobs:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ matrix.browser }}-${{ hashFiles('package-lock.json') }}
 
-      - name: Install Playwright Browsers
+      - name: Install Playwright Browsers (on cache miss)
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps ${{ matrix.browser }}
+        run: npx playwright install ${{ matrix.browser }}
 
-      # Inject Imperva session from secret so setup step is skipped on CI.
-      # Generate locally: npx playwright test --project=setup --headed
-      # Then encode:       cat playwright/.auth/user.json | base64
-      # Store as GitHub Secret: PLAYWRIGHT_AUTH_JSON
+      - name: Install Playwright OS Dependencies
+        run: npx playwright install-deps ${{ matrix.browser }}
+
       - name: Inject auth state from secret
         if: ${{ env.PLAYWRIGHT_AUTH_JSON != '' }}
         env:

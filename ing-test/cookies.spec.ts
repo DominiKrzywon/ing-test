@@ -16,7 +16,10 @@ test.beforeEach(async ({ page }) => {
       "utf-8",
     );
     await page.route("https://www.ing.pl/**", (route) =>
-      route.fulfill({ contentType: "text/html; charset=utf-8", body: mockHtml }),
+      route.fulfill({
+        contentType: "text/html; charset=utf-8",
+        body: mockHtml,
+      }),
     );
   }
 });

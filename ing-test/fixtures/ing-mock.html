@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
   <head>
     <meta charset="UTF-8" />
@@ -41,7 +41,7 @@
             : 0;
           var mask = 1 | analytical;
           var expires = new Date(
-            Date.now() + 365 * 24 * 60 * 60 * 1000
+            Date.now() + 365 * 24 * 60 * 60 * 1000,
           ).toUTCString();
 
           document.cookie =
