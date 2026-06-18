@@ -33,3 +33,5 @@ npx playwright test
 Workflow `.github/workflows/ing-cookies.yml` uruchamia test równolegle w
 `chromium`, `firefox` i `webkit` (matrix). Wynik (HTML report) ląduje jako
 artifact osobno dla każdej przeglądarki.
+
+

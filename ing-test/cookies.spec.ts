@@ -24,7 +24,6 @@ test.describe("ing.pl cookie consent", () => {
 
     await test.step("Consent cookie is persisted in the browser", async () => {
       const cookies = await context.cookies();
-      console.log(cookies);
 
       const consentCookie = cookies.find((c) => c.name === "cookiePolicyGDPR");
       const detailsCookie = cookies.find(
