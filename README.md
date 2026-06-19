@@ -1,7 +1,6 @@
 # ing.pl cookie consent — Playwright example
 
-Samodzielny przykład testu E2E (oddzielony od projektu sportsbook). Pokrywa
-przepływ zgody na cookies na `ing.pl`:
+Przykład testu E2E który pokrywa przepływ zgody na cookies na stronie banku `ing.pl`:
 
 1. Wejście na stronę
 2. Klik **Dostosuj**

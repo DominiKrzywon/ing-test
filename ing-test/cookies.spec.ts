@@ -3,12 +3,6 @@ import * as fs from "fs";
 import * as path from "path";
 import { CookiePolicyPage } from "../ing-POM/CookiePolicyPage";
 
-/**
- * On CI, Imperva/hCaptcha blocks requests from datacenter IPs.
- * We intercept all ing.pl requests and return a local HTML mock that
- * replicates the cookie-consent banner with identical selectors.
- * Locally the test runs against the real ing.pl.
- */
 test.beforeEach(async ({ page }) => {
   if (process.env.CI) {
     const mockHtml = fs.readFileSync(
