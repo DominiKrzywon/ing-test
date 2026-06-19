@@ -1,4 +1,4 @@
-# ing.pl cookie consent — Playwright example
+# ing.pl cookie consent — Playwright
 
 Przykład testu E2E który pokrywa przepływ zgody na cookies na stronie banku `ing.pl`:
 
